@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://www.darpanadhikari.com.np/addition/images/logo.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <meta name="description" content="Run and test your HTML, CSS, and JavaScript code online with our advanced compiler. Paste UI and get instant code, upload files, debug with console, test responsiveness, and download zipped projects.">
+    <meta name="keywords" content="online code editor, HTML CSS JS compiler, paste UI to code, frontend playground, JS console online, web UI generator, zip code download, responsive tester, live code runner">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Darpan Adhikari">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Advanced Online HTML CSS JS Compiler with Live Console">
+    <meta property="og:description" content="All-in-one web code runner – paste UI and auto-convert to code, upload HTML/CSS/JS, test live, debug with console, check responsiveness, and download zipped code.">
+    <meta property="og:url" content="https://compiler.darpanadhikari.com.np/">
+    <meta property="og:image" content="https://compiler.darpanadhikari.com.np/assets/preview.jpg">
+    <meta property="og:image:alt" content="Preview of HTML CSS JS Code Compiler UI">
+    <meta property="og:site_name" content="Online Code Compiler by Darpan">
+    <meta property="og:locale" content="en_US">
+    <link rel="canonical" href="https://compiler.darpanadhikari.com.np/" />
+    <title>Code Compiler || By Darpan Adhikari</title>
+    <link rel="stylesheet" href="assets/index_drp.min.css" />
+  </head>
+  <body>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Online HTML CSS JS Compiler",
+        "operatingSystem": "All",
+        "applicationCategory": "DeveloperApplication",
+        "description": "Online code editor to compile and run HTML, CSS, and JavaScript. Features include UI to code converter, file upload, JS console, resizable layout, zipped downloads, and guide support.",
+        "url": "https://compiler.darpanadhikari.com.np/",
+        "image": "https://compiler.darpanadhikari.com.np/assets/preview.png",
+        "author": {
+          "@type": "Person",
+          "name": "Darpan Adhikari"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "210"
+        }
+      }
+      </script>      
+    <div class="container" id="resizableGrid">
+      <div class="input-view">
+        <button id="compileBtn">▶ Run</button>
+        <div class="tabs">
+          <button class="tab-button active" data-tab="html">index.html</button>
+          <button class="tab-button" data-tab="css">style.css</button>
+          <button class="tab-button" data-tab="js">script.js</button>
+          <button id="converter">Paste2Code</button>
+          <button id="download" onclick="downloadHTML()">Download</button>
+          <div class="dropdown">
+            <button>📁 <span>File</span></button>
+            <div class="dropdown-content">
+              <button onclick="document.getElementById('htmlInput').click()">📄 Open .html</button>
+              <button onclick="document.getElementById('jsCssInput').click()">🧾 Open .js / .css</button>
+            </div>
+            <input type="file" id="htmlInput" accept=".html" hidden>
+            <input type="file" id="jsCssInput" accept=".js,.css" multiple hidden>
+          </div>
+        </div>
+        <div id="popup">
+          <div id="title">Paste Content Here</div>
+          <iframe id="editor" width="600" height="400"></iframe>
+          <button id="finish">Finish</button>
+        </div>
+        <div class="code-editors">
+          <textarea
+            id="htmlCode"
+            class="code-editor active"
+            placeholder="Enter HTML code here..."
+          ></textarea>
+          <textarea
+            id="cssCode"
+            class="code-editor"
+            placeholder="Enter CSS code here..."
+          ></textarea>
+          <textarea
+            id="jsCode"
+            class="code-editor"
+            placeholder="Enter JavaScript code here..."
+          ></textarea>
+        </div>
+      </div>
+      <div class="resizer" id="dragBar"></div>
+      <div class="output-view">
+        <h3 id="outputTitle">OUTPUT</h3>
+        <button id="screen-size">Split/Join Screen</button>
+        <iframe id="outputFrame"></iframe>
+      </div>
+      <br>
+      <div id="consoleContainer">
+        <button id="popupConsole"><svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16 2H7.979C6.88 2 6 2.88 6 3.98V12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 10H8V4h8v8zM4 10H2v6c0 1.1.9 2 2 2h6v-2H4v-6z"/></svg></button>
+        <div id="consoleOutput">
+          <strong>Console Output:</strong>
+        </div>    
+      </div>  
+    </div>
+
+    <!-- -------------------------user guide-------------------- -->
+    <button id="drp-instruction-open-btn" aria-label="Open Instructions" title="Open Instructions">
+      📘 Guide
+    </button>
+    
+    <div class="drp-instruction-overlay" id="drp-instruction-popup" style="display:none;">
+      <div class="drp-instruction-box">
+        <button class="drp-instruction-close" aria-label="Close">&times;</button>
+        <h2>📘 How to Use the Online Code Compiler</h2>
+        <div class="drp-instruction-accordion">
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">🔝 Top Navigation</button>
+            <div class="drp-instruction-content">
+              6 navigation tabs:<hr>
+              • <b>index.html</b> – HTML editor<br>
+              • <b>style.css</b> – CSS editor<br>
+              • <b>script.js</b> – JS editor<br>
+              • <b>Paste2Code</b> – Paste any component<br>
+              • <b>Download</b> – Export full project<br>
+              • <b>File</b> – Upload your own .html, .css, .js files
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">🚀 Run & Fullscreen</button>
+            <div class="drp-instruction-content">
+              • <b>Run:</b> Executes all code instantly.<br>
+              • <b>Fullscreen:</b> Toggles responsive view testing.
+            </div>
+          </div>
+
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">🟥 Resize Divider</button>
+            <div class="drp-instruction-content">
+              • <b>Black Line:</b> Drag the black line between code and output to test your UI’s responsiveness.
+            </div>
+          </div>
+
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">📄 index.html Tab</button>
+            <div class="drp-instruction-content">
+              • Write or paste HTML code.<br>
+              • Clipboard code is auto-structured.<br>
+              • Auto tag completion included.<br>
+              • No need to manually link CSS/JS.
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">🎨 style.css Tab</button>
+            <div class="drp-instruction-content">
+              • Realtime CSS editor.<br>
+              • Code updates instantly in preview.
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">📜 script.js Tab</button>
+            <div class="drp-instruction-content">
+              • Write and test JavaScript code.<br>
+              • Supports both inline and external JS.<br>
+              • Click Run to test code.<br>
+              • Console log/output appears at bottom.
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">📋 Paste2Code</button>
+            <div class="drp-instruction-content">
+              • Open popup and paste UI/component.<br>
+              • Click Finish to convert into HTML + CSS.
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">⬇️ Download</button>
+            <div class="drp-instruction-content">
+              • Exports ZIP containing:<br>
+              - <code>index.html</code><br>
+              - <code>assets/style.css</code><br>
+              - <code>assets/script.js</code><br>
+              • Works only if HTML content is available.
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">📂 File Upload</button>
+            <div class="drp-instruction-content">
+              • Hover to select:<br>
+              - One .html file<br>
+              - Multiple .js/.css files<br>
+              • Loads content into respective editors.
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">🖥️ Console Area</button>
+            <div class="drp-instruction-content">
+              • Shown at bottom of window.<br>
+              • Displays log, info, error, etc.<br>
+              • Click popup icon to view in a separate box.
+            </div>
+          </div>
+    
+          <div class="drp-instruction-item">
+            <button class="drp-instruction-btn">ℹ️ Note</button>
+            <div class="drp-instruction-content">
+              Developed by <b><a href="http://darpanadhikari.com.np" target="_blank" rel="noopener noreferrer">Darpan Adhikari</a></b> for online code compiling.<br>
+              This tool is free for personal use.<br>
+              ❌ Copying or selling is prohibited.
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <span
+          ><i>&copy;</i><span id="date"></span
+          ><a href="https://darpanadhikari.com.np" target="_blank">
+            DarpanAdhikari</a
+          >
+          || All right reserved</span
+        >
+      </footer>
+    <script src="assets/index_drp.min.js"></script>
+  </body>
+</html>
